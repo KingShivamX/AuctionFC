@@ -416,15 +416,15 @@ export async function placeBid(
         id: generateId(),
         leagueId,
         playerId,
-        amount: Number(amount.toFixed(2)),
+        amount: Math.round(amount), // Store as integer
         userId: user.id,
         username: user.username,
         teamName: user.teamName,
         timestamp: Date.now(),
     }
 
-    // Reset auction countdown timer to 12 seconds from now
-    const newTimerEnd = Date.now() + 12000
+    // Reset auction countdown timer to 15 seconds from now
+    const newTimerEnd = Date.now() + 15000
 
     const db = await getDb()
     if (db) {

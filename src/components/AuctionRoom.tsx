@@ -310,7 +310,7 @@ export default function AuctionRoom({
                                 className="font-bold font-mono"
                                 style={{ color: "#f5d800" }}
                             >
-                                ₹{myPurse.toFixed(1)} Cr
+                                ₹{Math.round(myPurse)} Cr
                             </span>
                             <span style={{ color: "rgba(255,255,255,0.2)" }}>
                                 {" "}
@@ -545,7 +545,8 @@ export default function AuctionRoom({
                                                 color: "var(--accent-strong)",
                                             }}
                                         >
-                                            ₹{activePlayer.basePrice.toFixed(1)}{" "}
+                                            ₹
+                                            {Math.round(activePlayer.basePrice)}{" "}
                                             Cr
                                         </span>
                                     </p>
@@ -609,7 +610,7 @@ export default function AuctionRoom({
                                             color: "var(--accent-strong)",
                                         }}
                                     >
-                                        ₹{currentHighest.toFixed(2)}
+                                        ₹{Math.round(currentHighest)}
                                         <span
                                             className="text-sm ml-1"
                                             style={{
@@ -632,11 +633,8 @@ export default function AuctionRoom({
                                 </p>
                                 <div className="grid grid-cols-4 gap-2.5">
                                     {[0.25, 0.5, 1.0, 2.0].map((inc) => {
-                                        const next = Number(
-                                            (
-                                                currentHighest +
-                                                (topBid ? inc : 0)
-                                            ).toFixed(2),
+                                        const next = Math.round(
+                                            currentHighest + (topBid ? inc : 0),
                                         )
                                         const canAfford = next <= myPurse
                                         const iAmLeading =
@@ -668,7 +666,7 @@ export default function AuctionRoom({
                                                         fontWeight: 900,
                                                     }}
                                                 >
-                                                    ₹{next.toFixed(2)}
+                                                    ₹{Math.round(next)}
                                                 </span>
                                             </button>
                                         )
@@ -836,7 +834,7 @@ export default function AuctionRoom({
                                             className="font-mono font-black"
                                             style={{ color: "#f5d800" }}
                                         >
-                                            ₹{b.amount.toFixed(2)} Cr
+                                            ₹{Math.round(b.amount)} Cr
                                         </span>
                                     </div>
                                 ))
