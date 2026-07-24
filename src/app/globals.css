@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+/* One dark indigo palette: solid surfaces, strong ink, hard outlines. */
+@layer base {
+  :root {
+    --ink: #10101d;
+    --black: #08080e;
+    --bg: #20213c;
+    --panel: #303156;
+    --panel-raised: #3c3e67;
+    --accent: #a9b7ff;
+    --accent-strong: #c8d1ff;
+    --text: #f5f6ff;
+    --muted: #c0c4e2;
+    --line: #08080e;
+  }
+
+  * { box-sizing: border-box; }
+  html { background: var(--bg); }
+  body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: var(--bg) !important;
+    color: var(--text) !important;
+    font-family: var(--font-geist-sans), Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  button, input { font: inherit; }
+  button:focus-visible, input:focus-visible { outline: 3px solid var(--accent-strong); outline-offset: 3px; }
+  ::selection { background: var(--accent); color: var(--ink); }
+}
+
+/* Remove all glass / translucent treatment from existing component classes. */
+.glass, .glass-dark, .card, .card-brutal {
+  background: var(--panel) !important;
+  border: 3px solid var(--line) !important;
+  border-radius: 16px !important;
+  box-shadow: 4px 4px 0 var(--black) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+.card-hover:hover {
+  transform: translate(-3px, -3px);
+  background: var(--panel-raised) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 6px 6px 0 var(--black) !important;
+  cursor: pointer;
+}
+
+.btn-primary, .btn-secondary, .btn-danger, .btn-bid {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  border: 3px solid var(--black) !important;
+  border-radius: 14px !important;
+  box-shadow: 3px 3px 0 var(--black) !important;
+  font-weight: 900;
+  letter-spacing: .015em;
+  cursor: pointer;
+  transition: transform .1s ease, box-shadow .1s ease, background-color .1s ease;
+}
+.btn-primary { background: var(--accent) !important; color: var(--ink) !important; padding: 9px 18px; }
+.btn-secondary { background: var(--panel-raised) !important; color: var(--text) !important; padding: 9px 18px; }
+.btn-danger { background: #6f4260 !important; color: var(--text) !important; padding: 9px 18px; }
+.btn-bid { background: var(--panel-raised) !important; color: var(--text) !important; padding: 11px 8px; }
+.btn-primary:hover:not(:disabled), .btn-secondary:hover:not(:disabled), .btn-danger:hover:not(:disabled), .btn-bid:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--black) !important;
+  filter: brightness(1.12);
+}
+.btn-primary:active:not(:disabled), .btn-secondary:active:not(:disabled), .btn-danger:active:not(:disabled), .btn-bid:active:not(:disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 var(--black) !important;
+}
+.btn-primary:disabled, .btn-secondary:disabled, .btn-danger:disabled, .btn-bid:disabled { opacity: .55; cursor: not-allowed; }
+
+.input {
+  width: 100%;
+  background: var(--black) !important;
+  color: var(--text) !important;
+  border: 3px solid var(--line) !important;
+  border-radius: 14px !important;
+  box-shadow: inset 2px 2px 0 #161728 !important;
+  outline: 0;
+  padding: 12px 14px;
+  min-height: 48px;
+  line-height: 1.2;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.input::placeholder { color: var(--muted) !important; opacity: 1; }
+.input:focus { border-color: var(--accent) !important; box-shadow: inset 2px 2px 0 #161728, 3px 3px 0 var(--accent) !important; }
+.input-mono { font-family: var(--font-geist-mono), monospace; }
+.input.pl-9 { padding-left: 3rem !important; }
+.input.pl-10 { padding-left: 3.5rem !important; }
+.input.pl-12 { padding-left: 4rem !important; }
+.input.pl-14 { padding-left: 4.5rem !important; }
+.input select, select.input {
+  padding-right: 42px;
+}
+select.input option {
+  background: var(--black);
+  color: var(--text);
+}
+
+.tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 8px;
+  color: var(--text) !important;
+  background: var(--panel-raised) !important;
+  border: 2px solid var(--black) !important;
+  border-radius: 0 !important;
+  font-size: 11px; font-weight: 800; letter-spacing: .04em;
+}
+.tag-green, .tag-pink, .tag-yellow, .tag-cyan, .tag-purple { background: var(--accent) !important; color: var(--ink) !important; }
+.tag-dim { color: var(--text) !important; }
+
+/* Components still include old inline translucent values; normalize them into opaque, legible surfaces. */
+[style*="rgba"] { border-color: var(--line) !important; }
+[style*="rgba(255,255,255"] { color: var(--muted) !important; }
+[style*="rgba(0,255,135"], [style*="rgba(0,212,255"], [style*="rgba(191,90,242"] { color: var(--accent) !important; }
+[style*="rgba(255,45,85"] { color: #ffd0e1 !important; }
+[style*="background: rgba"], [style*="background-color: rgba"] { background: var(--panel-raised) !important; }
+
+.text-white { color: var(--text) !important; }
+.text-black { color: var(--ink) !important; }
+.text-green-400, .text-emerald-500 { color: var(--accent) !important; }
+.bg-slate-950, .bg-slate-900 { background: var(--bg) !important; }
+.border-slate-900 { border-color: var(--black) !important; }
+
+.timer-bar-track { height: 7px; background: var(--black) !important; border: 2px solid var(--black); border-radius: 0; overflow: hidden; }
+.timer-bar-fill { background: var(--accent) !important; border-radius: 0; }
+.live-dot { background: var(--accent) !important; border: 2px solid var(--black); box-shadow: none !important; }
+.table-row-hover:hover { background: var(--panel-raised) !important; }
+
+@keyframes slideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+.animate-slide-up { animation: slideUp .28s ease-out both; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.animate-fade-in { animation: fadeIn .2s ease-out both; }
+@keyframes popIn { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: scale(1); } }
+.animate-pop { animation: popIn .2s ease-out both; }
+@keyframes pulse-dot { 50% { transform: scale(1.22); } }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: var(--accent); border: 2px solid var(--black); }
