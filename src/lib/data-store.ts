@@ -75,7 +75,7 @@ export async function registerUser(
             id: generateId(),
             username: cleanUsername,
             teamName: cleanTeam,
-            pin: cleanPin,
+            pin: String(cleanPin), // Ensure PIN is stored as string
             createdAt: Date.now(),
         }
         try {
@@ -104,7 +104,7 @@ export async function registerUser(
             id: generateId(),
             username: cleanUsername,
             teamName: cleanTeam,
-            pin: cleanPin,
+            pin: String(cleanPin), // Ensure PIN is stored as string
             createdAt: Date.now(),
         }
         memoryStore.users[cleanUsernameKey] = newUser
@@ -130,16 +130,36 @@ export async function loginUser(username: string, pin: string): Promise<User> {
                 },
             ],
         })
-        if (!user || user.pin !== cleanPin) {
+
+        if (!user) {
             throw new Error("Invalid username or 4-digit PIN")
         }
+
+        // Compare PINs as strings, ensuring both are trimmed
+        const storedPin = String(user.pin).trim()
+        if (storedPin !== cleanPin) {
+            console.error("PIN mismatch:", {
+                stored: storedPin,
+                provided: cleanPin,
+                user: user.username,
+            })
+            throw new Error("Invalid username or 4-digit PIN")
+        }
+
         return toUser(user)
     }
 
     const user = memoryStore.users[cleanUsernameKey]
-    if (!user || user.pin !== cleanPin) {
+    if (!user) {
         throw new Error("Invalid username or 4-digit PIN")
     }
+
+    // Compare PINs as strings, ensuring both are trimmed
+    const storedPin = String(user.pin).trim()
+    if (storedPin !== cleanPin) {
+        throw new Error("Invalid username or 4-digit PIN")
+    }
+
     return user
 }
 
@@ -540,18 +560,16 @@ export async function pauseResumeAuction(
 
     const db = await getDb()
     if (db) {
-        await db
-            .collection("leagues")
-            .updateOne(
-                { id: leagueId },
-                {
-                    $set: {
-                        isPaused: shouldPause,
-                        timerEnd: updatedTimerEnd,
-                        pausedTimeLeft,
-                    },
+        await db.collection("leagues").updateOne(
+            { id: leagueId },
+            {
+                $set: {
+                    isPaused: shouldPause,
+                    timerEnd: updatedTimerEnd,
+                    pausedTimeLeft,
                 },
-            )
+            },
+        )
     } else {
         memoryStore.leagues[leagueId] = league
     }
